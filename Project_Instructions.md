@@ -176,3 +176,47 @@ Project managers can fill out dynamic forms for their assigned projects and view
 3. Dynamic form is rendered based on project schema
 4. Entries table lists only the current user's entries for the project
 5. Edit and delete actions are available for each entry
+
+## Entries Feature Implementation Plan
+
+### 1. Fetch Assigned Projects & Form Schema
+- **API Endpoints:**
+  - `GET /api/projects` (returns assigned projects for project managers)
+  - `GET /api/forms/:project_id` (fetches form schema for a project)
+- **Frontend:**
+  - In `EntriesPage.tsx`, fetch assigned projects on mount.
+  - When a project is selected, fetch its form schema.
+
+### 2. Dynamic Form Rendering & Entry Submission
+- **Component:**
+  - `DynamicForm.tsx` renders fields from the schema and handles form state.
+  - On submit, POST to `/api/entries` with `{ project_id, data }`.
+
+### 3. Entries Table with Edit/Delete
+- **API Endpoints:**
+  - `GET /api/entries` (returns current user's entries for PMs)
+  - `PUT /api/entries/:id` (edit)
+  - `DELETE /api/entries/:id` (delete)
+- **Frontend:**
+  - In `EntriesPage.tsx`, fetch entries for the current user.
+  - Pass entries to `EntriesTable.tsx`.
+  - Implement edit/delete handlers.
+
+### Implementation Steps
+
+#### A. EntriesPage.tsx
+- Fetch assigned projects and let user select one.
+- Fetch form schema for selected project.
+- Render `DynamicForm` with schema.
+- On submit, POST entry and refresh entries list.
+- Render `EntriesTable` with user's entries.
+
+#### B. DynamicForm.tsx
+- Render form fields from schema.
+- Manage form state and validation.
+- Call `onSubmit` with form data.
+
+#### C. EntriesTable.tsx
+- List entries.
+- Provide edit/delete buttons.
+- Call parent handlers for edit/delete.

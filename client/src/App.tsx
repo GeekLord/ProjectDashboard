@@ -32,7 +32,7 @@ const App = () => {
         />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
-    </div>
+      </div>
   );
 };
 
